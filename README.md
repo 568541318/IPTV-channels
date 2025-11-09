@@ -6,6 +6,7 @@
 - 参考**supzhang**大佬的[get_iptv_channels](https://github.com/supzhang/get_iptv_channels)项目
 - 通过IPTV线路获取电信IPTV组播地址、回放地址以及官方EPG节目单
 - 在output目录生成DIYP格式sctv.txt,sctv.m3u,xmltv格式的epg.xml文件
+- 20251109新增输出rtp://格式的sctvmulticast.m3u文件
 - 配置文件路径为/app/config/config.json
 
 # 使用范围
