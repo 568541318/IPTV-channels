@@ -90,7 +90,6 @@ class Config:
 
 
 
-
 def load_config(config_file=CONFIG_PATH):
     """加载配置文件"""
     config = {}
@@ -325,11 +324,13 @@ def process_channel_data(channels: List[Tuple[str, ...]]) -> Dict[str, List[str]
     
     # 使用with语句安全处理文件
     with open(os.getcwd() +'/output/sctv.txt', 'w', encoding='utf-8') as ftxt, \
-         open(os.getcwd() +'/output/sctv.m3u', 'w', encoding='utf-8') as fm3u:
+         open(os.getcwd() +'/output/sctv.m3u', 'w', encoding='utf-8') as fm3u, \
+         open(os.getcwd() +'/output/sctvmulticast.m3u', 'w', encoding='utf-8') as fm3u_multicast:  # 修改点1：新增sctvmulticast.m3u文件
         
         # 写入文件头
         ftxt.write('央视频道,#genre#\n')
         fm3u.write('#EXTM3U\n')
+        fm3u_multicast.write('#EXTM3U\n')  # 修改点2：为组播文件写入文件头
         
         # 定义频道分类处理函数
         def write_channel(category: str, condition: Callable[[str], bool]):
@@ -339,6 +340,9 @@ def process_channel_data(channels: List[Tuple[str, ...]]) -> Dict[str, List[str]
                     udpxy = config.get('UDPxy', 'http://192.168.5.1:8888')
                     url = f'{udpxy}/rtp/{channel[3]}'
                     
+                    # 修改点3：生成组播格式的URL
+                    multicast_url = f'rtp://{channel[3]}'  # 直接使用组播地址
+                    
                     # 写入txt文件
                     
                     if channel[4] == '1': #支持时移的源
@@ -346,8 +350,11 @@ def process_channel_data(channels: List[Tuple[str, ...]]) -> Dict[str, List[str]
                     else:
                         ftxt.write(f'{name},{url}#{channel[6]}\n')
                     
-                    # 写入m3u文件
+                    # 写入m3u文件（原始格式）
                     fm3u.write(f'#EXTINF:-1 group-title="{category}", {name}\n{url}\n')
+                    
+                    # 修改点4：写入组播格式的m3u文件
+                    fm3u_multicast.write(f'#EXTINF:-1 group-title="{category}", {name}\n{multicast_url}\n')
                     
                     # 记录频道信息
                     channel_ids.append([channel[0], name, channel[2]])
@@ -524,7 +531,8 @@ def get_epg(host: str, cookies: dict, channel_info: Dict[str, List[str]]):
     
     # 写入EPG文件
     write_epg_file(channel_info, epg_data)
-    logger.info('epg.xml,sctv.m3u,sctv.txt以保存到output目录')
+    # 修改点5：更新日志信息，包含新生成的文件
+    logger.info('epg.xml, sctv.m3u, sctvmulticast.m3u, sctv.txt 已保存到output目录')
 
 if __name__ == '__main__':
     
