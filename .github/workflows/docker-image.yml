@@ -8,7 +8,7 @@ on:
 
 env:
   APP_NAME: sctvmulticastiptv-channels
-  DOCKERHUB_REPO: sctvmulticastiptv-channels
+  DOCKERHUB_REPO: xuhaochinese/sctvmulticastiptv-channels
 
 jobs:
 
