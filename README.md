@@ -21,6 +21,8 @@
 # 使用方法
     docker run -d --name iptv -p 5000:5000 -v /path/config:/app/config --restart always 568541318/iptv-channels:latest
 
+    
+
 - 访问http://host:5000
 ![alt text](config.png)
 ![alt text](channels.png)
