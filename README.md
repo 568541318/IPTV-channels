@@ -19,7 +19,7 @@
 - 内网UDPxy服务器已搭好
 
 # 使用方法
-    docker run -d --name iptv -p 5000:5000 -v /path/config:/app/config --restart always 568541318/iptv-channels:latest
+    docker run -d --name iptv -p 5000:5000 -v /path/config:/app/config --restart always xuhaochinese/iptv-channels:latest
 
     
 
