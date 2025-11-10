@@ -365,8 +365,10 @@ def process_channel_data(channels: List[Tuple[str, ...]]) -> Dict[str, List[str]
         write_channel('卫视频道', lambda name: '卫视' in name)
         ftxt.write('数字频道,#genre#\n')
         write_channel('数字频道', lambda name: '专区' in name)
+        ftxt.write('地方频道,#genre#\n')
+        write_channel('地方频道', lambda name: any(x in name for x in ['CDTV', 'SCTV', '乐山', '四川乡村', '峨眉', '成都', '宜宾', '自贡', '泸州', '眉山', '德阳', '雅安', '广元', '凉山', '内江', '攀枝花', '资阳']))
         ftxt.write('其他频道,#genre#\n')
-        write_channel('其他频道', lambda name: not any(x in name for x in ['专区', '卫视', 'CCTV', 'CHC', 'CGTN']))
+        write_channel('其他频道', lambda name: not any(x in name for x in ['专区', '卫视', 'CCTV', 'CHC', 'CGTN', 'CDTV', 'SCTV', '乐山', '四川乡村', '峨眉', '成都', '宜宾', '自贡', '泸州', '眉山', '德阳', '雅安', '广元', '凉山', '内江', '攀枝花', '资阳']))
     
     # 生成频道信息映射
     for i, channel in enumerate(channels):
@@ -547,3 +549,4 @@ if __name__ == '__main__':
         
     channel_info = get_channel_list(host, cookies, user_token, stbid)
     get_epg(host, cookies, channel_info)
+
